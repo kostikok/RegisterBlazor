@@ -1,0 +1,45 @@
+﻿@page "/userlist"
+@using Microsoft.EntityFrameworkCore
+@using werver.Models
+@inject IfonvizinContext context
+
+<h3>User List</h3>
+
+<button @onclick="FetchData">Fetch data</button>
+
+@if (users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="card-container">
+        @foreach (var user in users)
+        {
+            <div class="card">
+                <div class="card-image">
+                    <img src="https://ufa.vs-group.ru/upload/iblock/baf/uieg8o.png" />
+                </div>
+                <div class="card-content">
+                    <h4>@user.Username</h4>
+                    <p>@user.Email</p>
+                </div>
+            </div>
+        }
+    </div>
+}
+
+@code {
+    private List<User> users;
+
+    private async Task FetchData()
+    {
+        users = await context.Users.ToListAsync();
+    }
+
+    private void ShowDetails(User user)
+    {
+        // Здесь можно добавить логику для отображения деталей пользователя
+        Console.WriteLine($"Details for user: {user.Username}");
+    }
+}
